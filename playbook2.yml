@@ -1,0 +1,23 @@
+---
+- name: Install Apach Web Server
+  hosts: all
+  become: yes
+
+  tasks:  
+  - name: Start Apache and Enable it on the every boot
+    service: name=update
+
+  - name: Install Java
+    apt: name=default-jdk state=latest
+  
+  - name: Install Apache WebServer
+    apt: name=apache2 update_cache=yes state=latest
+
+  - name: enabled mod_rewrite
+    apache2_module: name=rewrite state=present
+    notify:
+        - restart apache2
+
+  handlers:
+  - name: restart apache2
+    service: name=apache2 state=restarted

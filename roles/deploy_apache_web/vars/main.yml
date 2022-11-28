@@ -1,0 +1,7 @@
+---
+# vars file for deploy_apache_web
+    source_file: ./1.txt
+    destin_file: /home/ubuntu    
+    message1: Privet
+    message1: Privet
+    secret  : PPASSWORDLISDYOURKDATEJOFDBIRTHSSDL 

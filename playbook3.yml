@@ -1,0 +1,12 @@
+---
+- name: Transfer file
+  hosts: all
+  become: yes
+
+  vars:
+  - source_file: ./1.txt
+    destin_file: /home/ubuntu
+
+  tasks:
+  - name: Copy file
+    copy: src={{ source_file }} dest={{ destin_file }} mode=0555

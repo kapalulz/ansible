@@ -1,0 +1,65 @@
+---
+- name: My Playbook
+  hosts: all
+  become: yes
+
+
+  vars:
+    source_file: ./1.txt
+    destin_file: /home/ubuntu    
+    message1: Privet
+    message1: Privet
+    secret  : PPASSWORDLISDYOURKDATEJOFDBIRTHSSDL 
+    
+ 
+
+  tasks:
+  - name: Ping my servers
+    ping:
+    
+  - name: Start Apache and Enable it on the every boot
+    service: name=update
+
+  - name: Install Java
+    apt: name=default-jdk state=latest
+  
+  - name: Install Apache WebServer
+    apt: name=apache2 update_cache=yes state=latest
+
+  - name: enabled mod_rewrite
+    apache2_module: name=rewrite state=present
+    notify:
+        - restart apache
+        
+  - name: Copy file
+    copy: src={{ source_file }} dest={{ destin_file }} mode=0555
+
+  - name: Print Secret varible
+    debug:
+      var: secret
+ 
+  - debug:
+      msg: "Secret word: {{ secret }}"
+
+  - debug:
+      msg: "Owner is: {{ owner }}"
+
+  - set_fact: full_message="{{ message1 }} from {{ owner }}"
+
+  - debug:
+      var: full_message    
+
+  - debug:
+      var: ansible_distribution
+  
+  - shell: uptime
+    register: results
+
+  - debug:
+      var: results
+      
+      
+      
+  handlers:
+  - name: restart apache2
+    service: name=apache2 state=restarted
